@@ -12,7 +12,7 @@ The actual data can be printed by using the print_cat() method:<br />
 ```python
 obj.print_cat()
 ```
-The "Uploaded:" feature is currently WIP(shows wrong numbers) and the actual date, time of creation of the nhentai page can be printed by adding the 'd' flag to the constructor:<br />
+The "Uploaded:" feature is currently WIP as it shows wrong numbers.The actual date, time of creation of the nhentai page can be printed by adding the 'd' flag to the constructor:<br />
 
 ```python
 obj2 = NuclearScraper(354322,'d')
