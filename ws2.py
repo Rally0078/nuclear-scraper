@@ -106,7 +106,7 @@ class NuclearScraper:
             print(k+string)
         if(self.diag_flag == 'd'):
             print(self.date_object)
-            
+#Runs standalone too for debugging purposes        
 if __name__ == "__main__":
     n_code = (input('Enter nuclear code:'))
     if(len(sys.argv) == 1):
