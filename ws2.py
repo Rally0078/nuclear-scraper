@@ -49,24 +49,6 @@ class NuclearScraper:
                         self.list_text_dict.append(j)
                 self.cat_dictionary[i]=self.list_text_dict
         
-        """for i in range(0, len(self.list_text)):
-            if self.list_text[i] in categories:
-                self.cat = self.list_text[i]
-        
-                
-                self.flag_end_reached = False
-                i = i+1
-                self.list_text_dict = []
-                while self.flag_end_reached is not True:
-                    if i == len(self.list_text):
-                        break
-                    if self.list_text[i] in categories:
-                        self.flag_end_reached = True
-                        break
-                    self.list_text_dict.append(self.list_text[i])
-                    i = i+1
-                self.cat_dictionary[self.cat] = self.list_text_dict"""
-        
     def _tag_visible(self,element):
         if element.parent.name in ['style', 'script', 'head', 'title', 'meta', '[document]']:
             return False
