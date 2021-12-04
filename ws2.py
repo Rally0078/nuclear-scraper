@@ -1,4 +1,5 @@
 import sys
+import re
 import requests
 from bs4 import BeautifulSoup
 from bs4.element import Comment
@@ -53,7 +54,7 @@ class NuclearScraper:
                     self.list_text_dict.append(self.list_text[i])
                     i = i+1
                 self.cat_dictionary[self.cat] = self.list_text_dict
-        #return cat_dictionary,date_object   no need to return
+        
     def _tag_visible(self,element):
         if element.parent.name in ['style', 'script', 'head', 'title', 'meta', '[document]']:
             return False
@@ -62,49 +63,60 @@ class NuclearScraper:
         return True
     
     def print_cat(self):
-        now = datetime.now(timezone.utc)
+        self.now = datetime.now(timezone.utc)
         for k, v in self.cat_dictionary.items():
             if k == 'Uploaded:':
-                no_of_days = (now-self.date_object).days
-                no_of_seconds = (now-self.date_object).seconds
-                if no_of_days >= 365:
-                    no_of_years = int(no_of_days/365)
-                    no_of_days = no_of_days % 365
-                    if no_of_days >= (365/12):
-                        no_of_months = int(no_of_days/(365/12))
-                        no_of_days = int(no_of_days % (365/12))
-                        time_string = str(
-                            no_of_years)+" years, "+str(no_of_months)+" months, "+str(no_of_days)+" days ago"
-                elif no_of_days < 365:
-                    if no_of_days >= (365/12):
-                        no_of_months = int(no_of_days/(365/12))
-                        no_of_days = int(no_of_days % (365/12))
-                        time_string = str(no_of_months)+" months, " + \
-                            str(no_of_days)+" days ago"
-                    if no_of_days < (365/12):
-                        if no_of_seconds >= 86400:
-                            # no_of_seconds=int(no_of_seconds/86400)
-                            no_of_hours = int(no_of_seconds/3600)
-                            time_string = str(no_of_days)+" days, " + \
+                self.no_of_days = (self.now-self.date_object).days
+                self.no_of_seconds = (self.now-self.date_object).seconds
+                if self.no_of_days >= 365:
+                    self.no_of_years = int(self.no_of_days/365)
+                    self.no_of_days = self.no_of_days % 365
+                    if self.no_of_days >= (365/12):
+                        self.no_of_months = int(self.no_of_days/(365/12))
+                        self.no_of_days = int(self.no_of_days % (365/12))
+                        self.time_string = str(
+                            self.no_of_years)+" years, "+str(self.no_of_months)+" months, "+str(self.no_of_days)+" days ago"
+                elif self.no_of_days < 365:
+                    if self.no_of_days >= (365/12):
+                        self.no_of_months = int(self.no_of_days/(365/12))
+                        self.no_of_days = int(self.no_of_days % (365/12))
+                        self.time_string = str(self.no_of_months)+" months, " + \
+                            str(self.no_of_days)+" days ago"
+                    if self.no_of_days < (365/12):
+                        if self.no_of_seconds >= 86400:
+                            # self.no_of_seconds=int(self.no_of_seconds/86400)
+                            no_of_hours = int(self.no_of_seconds/3600)
+                            self.time_string = str(self.no_of_days)+" days, " + \
                                 str(no_of_hours)+" hours ago"
                         else:
                             no_of_hours = int(no_of_seconds/3600)
                             seconds_elapsed = int(no_of_seconds % 3600)
                             no_of_minutes = int(seconds_elapsed/60)
-                            time_string = str(no_of_hours)+" hours, " + \
+                            self.time_string = str(no_of_hours)+" hours, " + \
                                 str(no_of_minutes)+" minutes ago"
-                print(k+" "+time_string)
+                print(k+" "+self.time_string)
                 break
-            string = ''
-            for i in range(0, len(v)):
-                if(i % 2) == 1:
-                    continue
-                if i == 0:
-                    string = string+" "+v[i]
-                if i != 0:
-                    string = string+", "+v[i]
-            print(k+string)
+            
+            self.string_list = []
+            self.string = ''
+    
+            for i in v: #for i in range(0, len(v)):
+                if k == 'Pages:':
+                    self.string_list.append(i)
+                else:#if k != 'Pages:':
+                    self.exp = re.findall(r"(\d+K|\d+)",i)
+                    if not self.exp:
+                        self.string_list.append(i)
+                           
+            for i in self.string_list:
+                if self.string_list.index(i) == 0:
+                    self.string = self.string+" "+i
+                if self.string_list.index(i) != 0:
+                    self.string = self.string+", "+i
+                
+            print(k+self.string)
         if(self.diag_flag == 'd'):
+            print(f"Diagnostics:\n:")
             print(self.date_object)
       
 
