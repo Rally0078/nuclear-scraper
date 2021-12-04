@@ -32,16 +32,28 @@ class NuclearScraper:
             self.date_object = datetime.strptime(self.date_time, "%Y-%m-%dT%H:%M:%S.%f%z")
            
         self.list_text = []
-        for all_tag in self.all_tags:
-            self.texts = all_tag.findAll(text=True)
+        for self.all_tag in self.all_tags:
+            self.texts = self.all_tag.findAll(text=True)
             self.visible_texts = filter(self._tag_visible, self.texts)
             for t in self.visible_texts:
                 self.text = t.strip()
                 self.list_text.append(self.text)
         
-        for i in range(0, len(self.list_text)):
+        for i in self.list_text:
+            self.list_text_dict = []
+            if i in categories:
+                for j in self.list_text[self.list_text.index(i)+1:]:
+                    if j in categories:
+                        break
+                    else:
+                        self.list_text_dict.append(j)
+                self.cat_dictionary[i]=self.list_text_dict
+        
+        """for i in range(0, len(self.list_text)):
             if self.list_text[i] in categories:
                 self.cat = self.list_text[i]
+        
+                
                 self.flag_end_reached = False
                 i = i+1
                 self.list_text_dict = []
@@ -53,7 +65,7 @@ class NuclearScraper:
                         break
                     self.list_text_dict.append(self.list_text[i])
                     i = i+1
-                self.cat_dictionary[self.cat] = self.list_text_dict
+                self.cat_dictionary[self.cat] = self.list_text_dict"""
         
     def _tag_visible(self,element):
         if element.parent.name in ['style', 'script', 'head', 'title', 'meta', '[document]']:
@@ -100,10 +112,10 @@ class NuclearScraper:
             self.string_list = []
             self.string = ''
     
-            for i in v: #for i in range(0, len(v)):
+            for i in v:
                 if k == 'Pages:':
                     self.string_list.append(i)
-                else:#if k != 'Pages:':
+                else:
                     self.exp = re.findall(r"(\d+K|\d+)",i)
                     if not self.exp:
                         self.string_list.append(i)
@@ -116,7 +128,7 @@ class NuclearScraper:
                 
             print(k+self.string)
         if(self.diag_flag == 'd'):
-            print(f"Diagnostics:\n:")
+            print(f"\nDiagnostics:")
             print(self.date_object)
       
 
