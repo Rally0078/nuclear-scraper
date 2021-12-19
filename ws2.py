@@ -61,41 +61,8 @@ class NuclearScraper:
         self.now = datetime.now(timezone.utc)
         print(self.now-self.date_object);
         for k, v in self.cat_dictionary.items():
-            # if k == 'Uploaded:':
-                # self.no_of_days = (self.now-self.date_object).days
-                # self.no_of_seconds = (self.now-self.date_object).seconds
-                # if self.no_of_days >= 365:
-                    # self.no_of_years = int(self.no_of_days/365)
-                    # self.no_of_days = self.no_of_days % 365
-                    # if self.no_of_days >= (365/12):
-                        # self.no_of_months = int(self.no_of_days/(365/12))
-                        # self.no_of_days = int(self.no_of_days % (365/12))
-                        # self.time_string = str(
-                            # self.no_of_years)+" years, "+str(self.no_of_months)+" months, "+str(self.no_of_days)+" days ago"
-                # elif self.no_of_days < 365:
-                    # if self.no_of_days >= (365/12):
-                        # self.no_of_months = int(self.no_of_days/(365/12))
-                        # self.no_of_days = int(self.no_of_days % (365/12))
-                        # self.time_string = str(self.no_of_months)+" months, " + \
-                            # str(self.no_of_days)+" days ago"
-                    # if self.no_of_days < (365/12):
-                        # if self.no_of_seconds >= 86400:
-                            # # self.no_of_seconds=int(self.no_of_seconds/86400)
-                            # no_of_hours = int(self.no_of_seconds/3600)
-                            # self.time_string = str(self.no_of_days)+" days, " + \
-                                # str(no_of_hours)+" hours ago"
-                        # else:
-                            # no_of_hours = int(no_of_seconds/3600)
-                            # seconds_elapsed = int(no_of_seconds % 3600)
-                            # no_of_minutes = int(seconds_elapsed/60)
-                            # self.time_string = str(no_of_hours)+" hours, " + \
-                                # str(no_of_minutes)+" minutes ago"
-                # print(k+" "+self.time_string)
-                # break
-            
             self.string_list = []
             self.string = ''
-    
             for i in v:
                 if k == 'Pages:':
                     self.string_list.append(i)
