@@ -48,6 +48,7 @@ class NuclearScraper:
                     else:
                         self.list_text_dict.append(j)
                 self.cat_dictionary[i]=self.list_text_dict
+        self._clean_cat()
         
     def _tag_visible(self,element):
         if element.parent.name in ['style', 'script', 'head', 'title', 'meta', '[document]']:
@@ -56,10 +57,8 @@ class NuclearScraper:
             return False
         return True
     
-    def print_cat(self):
-        print(self.date_object);
+    def _clean_cat(self):
         self.now = datetime.now(timezone.utc)
-        print(self.now-self.date_object);
         for k, v in self.cat_dictionary.items():
             self.string_list = []
             self.string = ''
@@ -79,7 +78,10 @@ class NuclearScraper:
                 if self.string_list.index(i) != 0:
                     self.string = self.string+", "+i
                     
-            self.cat_dictionary[k] = self.string    
+            self.cat_dictionary[k] = self.string
+            
+    def print_cat(self):
+        for k,v in self.cat_dictionary.items():    
             print(f"{k}{self.cat_dictionary[k]}")
         if(self.diag_flag == 'd'):
             print(f"\nDiagnostics:")
